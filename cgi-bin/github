@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use CGI qw/:standard/;
+use JSON::XS qw/decode_json/;
+use Data::Dumper;
+use Gearman::Client;
+
+
+my $client = Gearman::Client->new;
+$client->job_servers('127.0.0.1:4730');
+
+
+print header('text/plain');
+if (my $json = param('payload')) {
+	my $payload = decode_json($json);
+	my $rc = $client->dispatch_background('githubmessage', $json);
+}
+else {
+	warn "No payload found!";
+}
+print "KTHXBYE\n";
+exit 0;

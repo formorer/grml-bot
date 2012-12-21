@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use FindBin;
+
+use lib "$FindBin::Bin/../lib";
+
+use v5.10;
+use Bot::BasicBot::Pluggable;
+
+my $bot = Bot::BasicBot::Pluggable->new(
+    channels    => ["#grml"],
+    server      => "irc.freenode.net",
+    port        => "6667",
+    nick        => "grml-commits",
+    altnicks    => ["grml-commitbot"],
+    username    => "grml-bot",
+    name        => "GRML Commitbot",
+    ignore_list => [qw()],
+);
+
+my $auth_module   = $bot->load("Auth");
+my $loader_module = $bot->load("Loader");
+my $git_module    = $bot->load("Git");
+$bot->run();

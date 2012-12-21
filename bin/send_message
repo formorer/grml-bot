@@ -1,0 +1,15 @@
+#!/usr/bin/zsh
+
+MESSAGE="$1"
+CHANNEL="#grml"
+URL=http://XXX/XXXX
+
+if [ -z "$MESSAGE" ]
+then
+        echo "Message needed"
+        exit 1
+fi
+
+JSON="$(printf 'payload={"channel":"%s","message":"%s"}' $CHANNEL $MESSAGE)"
+curl -v -X POST -d "$JSON" "$URL"  2>/dev/null > /dev/null
+exit 0
